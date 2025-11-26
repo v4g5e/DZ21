@@ -1,0 +1,1612 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
+
+namespace ConsoleApp23
+{
+    // Задание 1
+    class Counter
+    {
+        public static int count = 0;
+        public static void Increment()
+        {
+            count++;
+        }
+    }
+
+    // Задание 2
+    static class Calculator
+    {
+        public static double Add(double a, double b) => a + b;
+        public static double Subtract(double a, double b) => a - b;
+        public static double Multiply(double a, double b) => a * b;
+        public static double Divide(double a, double b) => b != 0 ? a / b : 0;
+    }
+
+    // Задание 3
+    class StaticConstructorDemo
+    {
+        public static string Message;
+        static StaticConstructorDemo()
+        {
+            Message = "Инициализировано";
+        }
+    }
+
+    // Задание 4
+    static class Logger
+    {
+        public static void Log(string message)
+        {
+            File.AppendAllText("log.txt", message + Environment.NewLine);
+        }
+    }
+
+    // Задание 5
+    class PrivateStaticField
+    {
+        private static int _value = 42;
+        public static int Value { get => _value; set => _value = value; }
+    }
+
+    // Задание 6
+    class ObjectCounter
+    {
+        private static int _objectCount = 0;
+        public ObjectCounter() { _objectCount++; }
+        public static int GetCount() => _objectCount;
+    }
+
+    // Задание 7
+    static class ConfigManager
+    {
+        private static Dictionary<string, string> _config = new Dictionary<string, string>();
+        public static void SetConfig(string key, string value) => _config[key] = value;
+        public static string GetConfig(string key) => _config.ContainsKey(key) ? _config[key] : "";
+    }
+
+    // Задание 8
+    static class MathHelper
+    {
+        public static double Square(double x) => x * x;
+        public static double Cube(double x) => x * x * x;
+        public static double AbsoluteValue(double x) => Math.Abs(x);
+    }
+
+    // Задание 9
+    class VersionHolder
+    {
+        public static readonly string Version = "1.0.0";
+    }
+
+    // Задание 10
+    static class ValidationHelper
+    {
+        public static bool IsValidEmail(string email) => email.Contains("@");
+        public static bool IsValidPhone(string phone) => phone.Length >= 10;
+    }
+
+    // Задание 11
+    static class DateTimeHelper
+    {
+        public static string GetCurrentDate() => DateTime.Now.ToString("dd.MM.yyyy");
+        public static int GetDayOfWeek() => (int)DateTime.Now.DayOfWeek;
+    }
+
+    // Задание 12
+    static class StringHelper
+    {
+        public static string Reverse(string str) => new string(str.Reverse().ToArray());
+        public static int WordCount(string str) => str.Split(' ').Length;
+    }
+
+    // Задание 13
+    class MultipleStaticFields
+    {
+        public static int IntField = 10;
+        public static string StringField = "текст";
+        public static double DoubleField = 3.14;
+    }
+
+    // Задание 14
+    static class FileHelper
+    {
+        public static void WriteToFile(string path, string content) => File.WriteAllText(path, content);
+        public static string ReadFromFile(string path) => File.Exists(path) ? File.ReadAllText(path) : "";
+    }
+
+    // Задание 15
+    static class Constants
+    {
+        public const double PI = 3.14159;
+        public const int DAYS_IN_WEEK = 7;
+        public const string APP_NAME = "MyApp";
+    }
+
+    // Задание 16
+    static class HashHelper
+    {
+        public static string GetHash(string input) => input.GetHashCode().ToString();
+    }
+
+    // Задание 17
+    static class EventHelper
+    {
+        public static event EventHandler OnEvent;
+        public static void RaiseEvent() => OnEvent?.Invoke(null, EventArgs.Empty);
+    }
+
+    // Задание 18
+    static class ConversionHelper
+    {
+        public static int StringToInt(string str) => int.TryParse(str, out int result) ? result : 0;
+        public static double StringToDouble(string str) => double.TryParse(str, out double result) ? result : 0;
+    }
+
+    // Задание 19
+    static class TimerHelper
+    {
+        public static long MeasureTime(Action action)
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            action();
+            sw.Stop();
+            return sw.ElapsedMilliseconds;
+        }
+    }
+
+    // Задание 20
+    static class RandomGenerator
+    {
+        private static Random _random = new Random();
+        public static int GetRandomInt(int min, int max) => _random.Next(min, max);
+        public static double GetRandomDouble() => _random.NextDouble();
+    }
+
+    // Задание 21
+    static class Utils
+    {
+        public static void PrintInfo(string info) => Console.WriteLine(info);
+        public static int Max(int a, int b) => a > b ? a : b;
+    }
+
+    // Задание 22
+    static class Extensions
+    {
+        public static string ToUpperFirst(this string str) => char.ToUpper(str[0]) + str.Substring(1);
+    }
+
+    // Задание 23
+    static class DatabaseHelper
+    {
+        public static void Connect() => Console.WriteLine("Подключение к БД");
+        public static void Disconnect() => Console.WriteLine("Отключение от БД");
+    }
+
+    // Задание 24
+    static class CryptographyHelper
+    {
+        public static string Encrypt(string text)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
+        }
+    }
+
+    // Задание 25
+    static class HttpHelper
+    {
+        public static void SendRequest(string url) => Console.WriteLine($"Отправка запроса на {url}");
+    }
+
+    // Задание 26
+    static class JsonHelper
+    {
+        public static string ToJson(object obj) => "JSON";
+    }
+
+    // Задание 27
+    static class RegexHelper
+    {
+        public const string EMAIL_PATTERN = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+        public const string PHONE_PATTERN = @"^\d{10,}$";
+    }
+
+    // Задание 28
+    static class ImageProcessor
+    {
+        public static void Resize(string imagePath, int width, int height) 
+            => Console.WriteLine($"Изменение размера изображения до {width}x{height}");
+    }
+
+    // Задание 29
+    static class EmailValidator
+    {
+        public static bool ValidateEmail(string email) => email.Contains("@") && email.Contains(".");
+    }
+
+    // Задание 30
+    static class PasswordGenerator
+    {
+        public static string GeneratePassword(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            return new string(Enumerable.Range(0, length).Select(_ => chars[random.Next(chars.Length)]).ToArray());
+        }
+    }
+
+    // Задание 31
+    static class XmlHelper
+    {
+        public static void ParseXml(string xmlPath) => Console.WriteLine("Парсинг XML");
+    }
+
+    // Задание 32
+    static class NetworkHelper
+    {
+        public static void SendPacket(string data) => Console.WriteLine("Отправка пакета");
+    }
+
+    // Задание 33
+    static class SecurityHelper
+    {
+        public static string HashPassword(string password) => password.GetHashCode().ToString();
+    }
+
+    // Задание 34
+    static class PathHelper
+    {
+        public static string GetFileName(string path) => Path.GetFileName(path);
+        public static string GetDirectory(string path) => Path.GetDirectoryName(path);
+    }
+
+    // Задание 35
+    static class ColorHelper
+    {
+        public static string RgbToHex(int r, int g, int b) => $"#{r:X2}{g:X2}{b:X2}";
+    }
+
+    // Задание 36
+    static class CompressionHelper
+    {
+        public static void CompressFile(string filePath) => Console.WriteLine("Сжатие файла");
+    }
+
+    // Задание 37
+    static class EnvironmentHelper
+    {
+        public static string GetOSVersion() => Environment.OSVersion.ToString();
+    }
+
+    // Задание 38
+    static class UrlHelper
+    {
+        public static string GetDomain(string url) => new Uri(url).Host;
+    }
+
+    // Задание 39
+    static class TextProcessor
+    {
+        public static string RemoveSpaces(string text) => text.Replace(" ", "");
+    }
+
+    // Задание 40
+    static class SystemInfo
+    {
+        public static int GetProcessorCount() => Environment.ProcessorCount;
+    }
+
+    // Задание 41 - Расширяющий метод для проверки палиндрома
+    static class StringExtensions
+    {
+        public static bool IsPalindrome(this string str)
+        {
+            string clean = new string(str.Where(char.IsLetterOrDigit).ToArray()).ToLower();
+            return clean == new string(clean.Reverse().ToArray());
+        }
+
+        // Задание 45 - Удаление пробелов
+        public static string RemoveAllSpaces(this string str) => str.Replace(" ", "");
+
+        // Задание 47 - Title Case
+        public static string ToTitleCase(this string str) => System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
+
+        // Задание 50 - Подсчет слов
+        public static int CountWords(this string str) => str.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
+
+        // Задание 53 - Удаление HTML тегов
+        public static string RemoveHtmlTags(this string html)
+        {
+            System.Text.RegularExpressions.Regex tag = new System.Text.RegularExpressions.Regex("<[^>]+>");
+            return tag.Replace(html, "");
+        }
+
+        // Задание 56 - Base64 кодирование
+        public static string ToBase64(this string str) => Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
+
+        // Задание 59 - Проверка силы пароля
+        public static int PasswordStrength(this string password)
+        {
+            int strength = 0;
+            if (password.Length >= 8) strength++;
+            if (password.Any(char.IsUpper)) strength++;
+            if (password.Any(char.IsLower)) strength++;
+            if (password.Any(char.IsDigit)) strength++;
+            return strength;
+        }
+    }
+
+    // Задание 42 - Случайный элемент массива
+    static class ArrayExtensions
+    {
+        public static T GetRandomElement<T>(this T[] array)
+        {
+            return array[new Random().Next(array.Length)];
+        }
+
+        // Задание 51 - Медиана массива
+        public static double GetMedian(this int[] array)
+        {
+            var sorted = array.OrderBy(x => x).ToArray();
+            return sorted.Length % 2 == 0 ? 
+                (sorted[sorted.Length / 2 - 1] + sorted[sorted.Length / 2]) / 2.0 : 
+                sorted[sorted.Length / 2];
+        }
+
+        // Задание 57 - Второй максимальный элемент
+        public static int GetSecondMax(this int[] array) => array.OrderByDescending(x => x).Skip(1).First();
+    }
+
+    // Задание 43 - Проверка четности
+    static class NumberExtensions
+    {
+        public static bool IsEven(this int number) => number % 2 == 0;
+
+        // Задание 48 - Римские цифры
+        public static string ToRoman(this int number)
+        {
+            string result = "";
+            int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+            string[] numerals = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                while (number >= values[i])
+                {
+                    result += numerals[i];
+                    number -= values[i];
+                }
+            }
+            return result;
+        }
+
+        // Задание 54 - Проверка простого числа
+        public static bool IsPrime(this int number)
+        {
+            if (number < 2) return false;
+            for (int i = 2; i <= Math.Sqrt(number); i++)
+                if (number % i == 0) return false;
+            return true;
+        }
+
+        // Задание 60 - Читаемый формат байтов
+        public static string BytesToReadable(this long bytes)
+        {
+            string[] sizes = { "B", "KB", "MB", "GB", "TB" };
+            double len = bytes;
+            int order = 0;
+            while (len >= 1024 && order < sizes.Length - 1)
+            {
+                order++;
+                len = len / 1024;
+            }
+            return $"{len:0.##} {sizes[order]}";
+        }
+    }
+
+    // Задание 44 - Возраст из DateTime
+    static class DateTimeExtensions
+    {
+        public static int GetAge(this DateTime birthDate)
+        {
+            int age = DateTime.Now.Year - birthDate.Year;
+            if (birthDate.Date > DateTime.Now.AddYears(-age)) age--;
+            return age;
+        }
+
+        // Задание 52 - Начало недели
+        public static DateTime GetWeekStart(this DateTime date)
+        {
+            int diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
+            return date.AddDays(-1 * diff).Date;
+        }
+
+        // Задание 58 - Читаемый формат даты
+        public static string ToReadableFormat(this DateTime date) => date.ToString("dddd, d MMMM yyyy");
+    }
+
+    // Задание 46 - Перемешивание списка
+    static class ListExtensions
+    {
+        public static List<T> Shuffle<T>(this List<T> list)
+        {
+            Random rng = new Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+            return list;
+        }
+
+        // Задание 49 - Проверка пустоты коллекции
+        public static bool HasElements<T>(this List<T> list) => list != null && list.Count > 0;
+
+        // Задание 55 - Группировка по размеру
+        public static List<List<T>> GroupBySize<T>(this List<T> list, int size)
+        {
+            var result = new List<List<T>>();
+            for (int i = 0; i < list.Count; i += size)
+                result.Add(list.Skip(i).Take(size).ToList());
+            return result;
+        }
+    }
+
+    // Задание 61
+    class Car
+    {
+        public class Engine
+        {
+            public string Type { get; set; } = "V8";
+            public void Start() => Console.WriteLine("Двигатель запущен");
+        }
+        public Engine engine = new Engine();
+    }
+
+    // Задание 62
+    class Library
+    {
+        public class Book
+        {
+            public string Title { get; set; }
+            public string Author { get; set; }
+        }
+        private List<Book> books = new List<Book>();
+    }
+
+    // Задание 63
+    class Computer
+    {
+        private class CPU
+        {
+            public string Model { get; set; }
+        }
+        private class RAM
+        {
+            public int Size { get; set; }
+        }
+    }
+
+    // Задание 64
+    class University
+    {
+        protected class Student
+        {
+            public string Name { get; set; }
+        }
+    }
+
+    // Задание 65
+    class BankAccount
+    {
+        public class Transaction
+        {
+            public decimal Amount { get; set; }
+            public DateTime Date { get; set; }
+        }
+    }
+
+    // Задание 66
+    class Game
+    {
+        public static class Rules
+        {
+            public static int MaxPlayers = 4;
+            public static int MinPlayers = 1;
+        }
+    }
+
+    // Задание 67
+    class TreeNode
+    {
+        public class InOrderTraversal
+        {
+            public void Traverse() => Console.WriteLine("Обход в порядке");
+        }
+        public class PreOrderTraversal
+        {
+            public void Traverse() => Console.WriteLine("Обход перед");
+        }
+    }
+
+    // Задание 68
+    class CalculatorNested
+    {
+        public class Addition
+        {
+            public double Calculate(double a, double b) => a + b;
+        }
+        public class Subtraction
+        {
+            public double Calculate(double a, double b) => a - b;
+        }
+    }
+
+    // Задание 69
+    class Document
+    {
+        public class Page
+        {
+            public int Number { get; set; }
+            public string Content { get; set; }
+        }
+    }
+
+    // Задание 70
+    class Network
+    {
+        public class Node
+        {
+            public string Id { get; set; }
+        }
+        public class Connection
+        {
+            public Node From { get; set; }
+            public Node To { get; set; }
+        }
+    }
+
+    // Задание 71
+    class House
+    {
+        public class Room
+        {
+            public string Name { get; set; }
+            public class Furniture
+            {
+                public string Type { get; set; }
+            }
+        }
+    }
+
+    // Задание 72
+    class Phone
+    {
+        public class Contact
+        {
+            public string Name { get; set; }
+            public string PhoneNumber { get; set; }
+        }
+        public class Message
+        {
+            public string Text { get; set; }
+            public DateTime Date { get; set; }
+        }
+    }
+
+    // Задание 73
+    class Restaurant
+    {
+        public class Menu
+        {
+            public List<string> Dishes { get; set; } = new List<string>();
+        }
+        public class Order
+        {
+            public List<string> Items { get; set; } = new List<string>();
+        }
+    }
+
+    // Задание 74
+    class School
+    {
+        public class Teacher
+        {
+            public string Name { get; set; }
+        }
+        public class Classroom
+        {
+            public int RoomNumber { get; set; }
+        }
+    }
+
+    // Задание 75
+    class LinkedListNested
+    {
+        public class Node
+        {
+            public int Data { get; set; }
+            public Node Next { get; set; }
+        }
+    }
+
+    // Задание 76
+    class Email
+    {
+        public class Attachment
+        {
+            public string FileName { get; set; }
+        }
+        public class Header
+        {
+            public string From { get; set; }
+            public string To { get; set; }
+        }
+    }
+
+    // Задание 77
+    class Team
+    {
+        public class Player
+        {
+            public string Name { get; set; }
+        }
+        public class Coach
+        {
+            public string Name { get; set; }
+        }
+    }
+
+    // Задание 78
+    class Shape
+    {
+        public class Circle
+        {
+            public double Radius { get; set; }
+            public double Area() => Math.PI * Radius * Radius;
+        }
+        public class Rectangle
+        {
+            public double Width { get; set; }
+            public double Height { get; set; }
+            public double Area() => Width * Height;
+        }
+    }
+
+    // Задание 79
+    class Database
+    {
+        public class Table
+        {
+            public string Name { get; set; }
+            public class Column
+            {
+                public string Name { get; set; }
+                public string Type { get; set; }
+            }
+        }
+    }
+
+    // Задание 80
+    class Store
+    {
+        public class Product
+        {
+            public string Name { get; set; }
+            public decimal Price { get; set; }
+        }
+        public class Category
+        {
+            public string Name { get; set; }
+        }
+    }
+
+    // Задание 81
+    class DatabaseConnection
+    {
+        private static DatabaseConnection _instance;
+        public static DatabaseConnection Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new DatabaseConnection();
+                return _instance;
+            }
+        }
+        private DatabaseConnection() { }
+    }
+
+    // Задание 82
+    class LoggerSingleton
+    {
+        private static LoggerSingleton _instance;
+        private static readonly object _lock = new object();
+        public static LoggerSingleton Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_instance == null)
+                            _instance = new LoggerSingleton();
+                    }
+                }
+                return _instance;
+            }
+        }
+        private LoggerSingleton() { }
+        public void Log(string message) => Console.WriteLine($"Логирование: {message}");
+    }
+
+    // Задание 83
+    class LazyLogger
+    {
+        private static readonly Lazy<LazyLogger> _instance = new Lazy<LazyLogger>(() => new LazyLogger());
+        public static LazyLogger Instance => _instance.Value;
+        private LazyLogger() { }
+    }
+
+    // Задание 84
+    class DoubleCheckLockSingleton
+    {
+        private static DoubleCheckLockSingleton _instance;
+        private static readonly object _syncRoot = new object();
+        public static DoubleCheckLockSingleton Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_syncRoot)
+                    {
+                        if (_instance == null)
+                            _instance = new DoubleCheckLockSingleton();
+                    }
+                }
+                return _instance;
+            }
+        }
+        private DoubleCheckLockSingleton() { }
+    }
+
+    // Задание 85
+    class ConfigurationManager
+    {
+        private static ConfigurationManager _instance;
+        private Dictionary<string, string> _settings = new Dictionary<string, string>();
+
+        public static ConfigurationManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new ConfigurationManager();
+                return _instance;
+            }
+        }
+        private ConfigurationManager() { }
+    }
+
+    // Задание 86
+    class StaticConstructorSingleton
+    {
+        public static readonly StaticConstructorSingleton Instance = new StaticConstructorSingleton();
+        static StaticConstructorSingleton() { }
+        private StaticConstructorSingleton() { }
+    }
+
+    // Задание 87
+    class EnumBasedSettings
+    {
+        public static EnumBasedSettings Instance { get; } = new EnumBasedSettings();
+        private EnumBasedSettings() { }
+    }
+
+    // Задание 88 - Исправлен Generic Singleton - без ограничения new()
+    class GenericSingleton<T>
+    {
+        private static GenericSingleton<T> _instance;
+        public static GenericSingleton<T> Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new GenericSingleton<T>();
+                return _instance;
+            }
+        }
+        public T Value { get; set; }
+    }
+
+    // Задание 89
+    class DestroyableSingleton
+    {
+        private static DestroyableSingleton _instance;
+        public static DestroyableSingleton Instance
+        {
+            get { return _instance ?? (_instance = new DestroyableSingleton()); }
+        }
+        public void Destroy() => _instance = null;
+        private DestroyableSingleton() { }
+    }
+
+    // Задание 90
+    class CacheManager
+    {
+        private static CacheManager _instance;
+        private Dictionary<string, object> _cache = new Dictionary<string, object>();
+
+        public static CacheManager Instance
+        {
+            get { return _instance ?? (_instance = new CacheManager()); }
+        }
+        public void Add(string key, object value) => _cache[key] = value;
+        public object Get(string key) => _cache.ContainsKey(key) ? _cache[key] : null;
+        private CacheManager() { }
+    }
+
+    // Задание 91
+    class FileManager
+    {
+        private static FileManager _instance;
+        public static FileManager Instance
+        {
+            get { return _instance ?? (_instance = new FileManager()); }
+        }
+        public bool FileExists(string path) => File.Exists(path);
+        private FileManager() { }
+    }
+
+    // Задание 92
+    class RandomGeneratorSingleton
+    {
+        private static RandomGeneratorSingleton _instance;
+        private Random _random = new Random();
+
+        public static RandomGeneratorSingleton Instance
+        {
+            get { return _instance ?? (_instance = new RandomGeneratorSingleton()); }
+        }
+        public int Next(int max) => _random.Next(max);
+        public double NextDouble() => _random.NextDouble();
+        private RandomGeneratorSingleton() { }
+    }
+
+    // Задание 93
+    class ApplicationState
+    {
+        private static ApplicationState _instance;
+        private Dictionary<string, object> _state = new Dictionary<string, object>();
+
+        public static ApplicationState Instance
+        {
+            get { return _instance ?? (_instance = new ApplicationState()); }
+        }
+        public void SetState(string key, object value) => _state[key] = value;
+        public object GetState(string key) => _state.ContainsKey(key) ? _state[key] : null;
+        public void SaveToFile(string path) => File.WriteAllText(path, string.Join(",", _state));
+        private ApplicationState() { }
+    }
+
+    // Задание 94
+    class SecurityManager
+    {
+        private static SecurityManager _instance;
+        private Dictionary<string, string> _users = new Dictionary<string, string>();
+
+        public static SecurityManager Instance
+        {
+            get { return _instance ?? (_instance = new SecurityManager()); }
+        }
+        public bool Authenticate(string username, string password) => _users.ContainsKey(username);
+        private SecurityManager() { }
+    }
+
+    // Задание 95
+    class PerformanceCounter
+    {
+        private static PerformanceCounter _instance;
+        public static PerformanceCounter Instance
+        {
+            get { return _instance ?? (_instance = new PerformanceCounter()); }
+        }
+        private PerformanceCounter() { }
+    }
+
+    // Задание 96
+    class EmailService
+    {
+        private static EmailService _instance;
+        private Queue<string> _messageQueue = new Queue<string>();
+
+        public static EmailService Instance
+        {
+            get { return _instance ?? (_instance = new EmailService()); }
+        }
+        public void EnqueueMessage(string message) => _messageQueue.Enqueue(message);
+        public string DequeueMessage() => _messageQueue.Count > 0 ? _messageQueue.Dequeue() : "";
+        private EmailService() { }
+    }
+
+    // Задание 97
+    class PrintManager
+    {
+        private static PrintManager _instance;
+        private Queue<string> _printQueue = new Queue<string>();
+
+        public static PrintManager Instance
+        {
+            get { return _instance ?? (_instance = new PrintManager()); }
+        }
+        public void AddToPrintQueue(string document) => _printQueue.Enqueue(document);
+        private PrintManager() { }
+    }
+
+    // Задание 98
+    class SessionManager
+    {
+        private static SessionManager _instance;
+        private Dictionary<string, object> _sessions = new Dictionary<string, object>();
+
+        public static SessionManager Instance
+        {
+            get { return _instance ?? (_instance = new SessionManager()); }
+        }
+        public void CreateSession(string sessionId) => _sessions[sessionId] = new object();
+        private SessionManager() { }
+    }
+
+    // Задание 99
+    class NotificationService
+    {
+        private static NotificationService _instance;
+        public static NotificationService Instance
+        {
+            get { return _instance ?? (_instance = new NotificationService()); }
+        }
+        public void Notify(string message) => Console.WriteLine($"Уведомление: {message}");
+        private NotificationService() { }
+    }
+
+    // Задание 100
+    class ResourcePoolManager
+    {
+        private static ResourcePoolManager _instance;
+        private Queue<object> _pool = new Queue<object>();
+
+        public static ResourcePoolManager Instance
+        {
+            get { return _instance ?? (_instance = new ResourcePoolManager()); }
+        }
+        public void AddResource(object resource) => _pool.Enqueue(resource);
+        public object GetResource() => _pool.Count > 0 ? _pool.Dequeue() : null;
+        private ResourcePoolManager() { }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Console.WriteLine("\nВыберите задание (1-100) или 0 для выхода:");
+                string choice = Console.ReadLine();
+
+                if (!int.TryParse(choice, out int taskNum) || taskNum < 0 || taskNum > 100)
+                {
+                    if (taskNum == 0) break;
+                    Console.WriteLine("Неверный ввод");
+                    continue;
+                }
+
+                switch (taskNum)
+                {
+                    case 0:
+                        return;
+
+                    // Задание 1
+                    case 1:
+                        Counter.count = 0;
+                        Counter.Increment();
+                        Counter.Increment();
+                        Console.WriteLine($"Счетчик: {Counter.count}");
+                        break;
+
+                    // Задание 2
+                    case 2:
+                        Console.WriteLine($"5 + 3 = {Calculator.Add(5, 3)}");
+                        Console.WriteLine($"5 - 3 = {Calculator.Subtract(5, 3)}");
+                        Console.WriteLine($"5 * 3 = {Calculator.Multiply(5, 3)}");
+                        Console.WriteLine($"5 / 3 = {Calculator.Divide(5, 3)}");
+                        break;
+
+                    // Задание 3
+                    case 3:
+                        Console.WriteLine(StaticConstructorDemo.Message);
+                        break;
+
+                    // Задание 4
+                    case 4:
+                        Logger.Log("Тестовое сообщение");
+                        Console.WriteLine("Сообщение записано в log.txt");
+                        break;
+
+                    // Задание 5
+                    case 5:
+                        Console.WriteLine($"Значение: {PrivateStaticField.Value}");
+                        PrivateStaticField.Value = 100;
+                        Console.WriteLine($"Новое значение: {PrivateStaticField.Value}");
+                        break;
+
+                    // Задание 6
+                    case 6:
+                        new ObjectCounter();
+                        new ObjectCounter();
+                        Console.WriteLine($"Создано объектов: {ObjectCounter.GetCount()}");
+                        break;
+
+                    // Задание 7
+                    case 7:
+                        ConfigManager.SetConfig("app_name", "MyApp");
+                        Console.WriteLine($"Конфиг: {ConfigManager.GetConfig("app_name")}");
+                        break;
+
+                    // Задание 8
+                    case 8:
+                        Console.WriteLine($"Квадрат 5: {MathHelper.Square(5)}");
+                        Console.WriteLine($"Куб 5: {MathHelper.Cube(5)}");
+                        Console.WriteLine($"Абсолютное значение -10: {MathHelper.AbsoluteValue(-10)}");
+                        break;
+
+                    // Задание 9
+                    case 9:
+                        Console.WriteLine($"Версия приложения: {VersionHolder.Version}");
+                        break;
+
+                    // Задание 10
+                    case 10:
+                        Console.WriteLine($"Email валиден: {ValidationHelper.IsValidEmail("test@mail.com")}");
+                        Console.WriteLine($"Телефон валиден: {ValidationHelper.IsValidPhone("1234567890")}");
+                        break;
+
+                    // Задание 11
+                    case 11:
+                        Console.WriteLine($"Текущая дата: {DateTimeHelper.GetCurrentDate()}");
+                        Console.WriteLine($"День недели: {DateTimeHelper.GetDayOfWeek()}");
+                        break;
+
+                    // Задание 12
+                    case 12:
+                        Console.WriteLine($"Обратная строка: {StringHelper.Reverse("Привет")}");
+                        Console.WriteLine($"Количество слов: {StringHelper.WordCount("Это тестовая строка")}");
+                        break;
+
+                    // Задание 13
+                    case 13:
+                        Console.WriteLine($"Int: {MultipleStaticFields.IntField}");
+                        Console.WriteLine($"String: {MultipleStaticFields.StringField}");
+                        Console.WriteLine($"Double: {MultipleStaticFields.DoubleField}");
+                        break;
+
+                    // Задание 14
+                    case 14:
+                        FileHelper.WriteToFile("test.txt", "Тестовое содержимое");
+                        Console.WriteLine($"Содержимое: {FileHelper.ReadFromFile("test.txt")}");
+                        break;
+
+                    // Задание 15
+                    case 15:
+                        Console.WriteLine($"PI: {Constants.PI}");
+                        Console.WriteLine($"Дни в неделе: {Constants.DAYS_IN_WEEK}");
+                        Console.WriteLine($"Имя приложения: {Constants.APP_NAME}");
+                        break;
+
+                    // Задание 16
+                    case 16:
+                        Console.WriteLine($"Хеш 'Hello': {HashHelper.GetHash("Hello")}");
+                        break;
+
+                    // Задание 17
+                    case 17:
+                        EventHelper.OnEvent += (s, e) => Console.WriteLine("Событие произошло");
+                        EventHelper.RaiseEvent();
+                        break;
+
+                    // Задание 18
+                    case 18:
+                        Console.WriteLine($"Строка '123' в int: {ConversionHelper.StringToInt("123")}");
+                        Console.WriteLine($"Строка '3.14' в double: {ConversionHelper.StringToDouble("3.14")}");
+                        break;
+
+                    // Задание 19
+                    case 19:
+                        long time = TimerHelper.MeasureTime(() => System.Threading.Thread.Sleep(100));
+                        Console.WriteLine($"Время выполнения: {time} мс");
+                        break;
+
+                    // Задание 20
+                    case 20:
+                        Console.WriteLine($"Случайное число: {RandomGenerator.GetRandomInt(1, 100)}");
+                        Console.WriteLine($"Случайное вещественное: {RandomGenerator.GetRandomDouble()}");
+                        break;
+
+                    // Задание 21
+                    case 21:
+                        Utils.PrintInfo("Информация из Utils");
+                        Console.WriteLine($"Максимум: {Utils.Max(10, 20)}");
+                        break;
+
+                    // Задание 22
+                    case 22:
+                        Console.WriteLine("привет".ToUpperFirst());
+                        break;
+
+                    // Задание 23
+                    case 23:
+                        DatabaseHelper.Connect();
+                        DatabaseHelper.Disconnect();
+                        break;
+
+                    // Задание 24
+                    case 24:
+                        string encrypted = CryptographyHelper.Encrypt("Secret");
+                        Console.WriteLine($"Зашифровано: {encrypted}");
+                        break;
+
+                    // Задание 25
+                    case 25:
+                        HttpHelper.SendRequest("https://example.com");
+                        break;
+
+                    // Задание 26
+                    case 26:
+                        Console.WriteLine($"JSON: {JsonHelper.ToJson(new { name = "Test" })}");
+                        break;
+
+                    // Задание 27
+                    case 27:
+                        Console.WriteLine($"Email паттерн: {RegexHelper.EMAIL_PATTERN}");
+                        Console.WriteLine($"Телефон паттерн: {RegexHelper.PHONE_PATTERN}");
+                        break;
+
+                    // Задание 28
+                    case 28:
+                        ImageProcessor.Resize("image.jpg", 800, 600);
+                        break;
+
+                    // Задание 29
+                    case 29:
+                        Console.WriteLine($"Email валиден: {EmailValidator.ValidateEmail("test@mail.com")}");
+                        break;
+
+                    // Задание 30
+                    case 30:
+                        Console.WriteLine($"Пароль: {PasswordGenerator.GeneratePassword(10)}");
+                        break;
+
+                    // Задание 31
+                    case 31:
+                        XmlHelper.ParseXml("data.xml");
+                        break;
+
+                    // Задание 32
+                    case 32:
+                        NetworkHelper.SendPacket("data");
+                        break;
+
+                    // Задание 33
+                    case 33:
+                        Console.WriteLine($"Хеш пароля: {SecurityHelper.HashPassword("password123")}");
+                        break;
+
+                    // Задание 34
+                    case 34:
+                        Console.WriteLine($"Файл: {PathHelper.GetFileName("/path/to/file.txt")}");
+                        Console.WriteLine($"Директория: {PathHelper.GetDirectory("/path/to/file.txt")}");
+                        break;
+
+                    // Задание 35
+                    case 35:
+                        Console.WriteLine($"RGB в Hex: {ColorHelper.RgbToHex(255, 128, 0)}");
+                        break;
+
+                    // Задание 36
+                    case 36:
+                        CompressionHelper.CompressFile("file.txt");
+                        break;
+
+                    // Задание 37
+                    case 37:
+                        Console.WriteLine($"ОС: {EnvironmentHelper.GetOSVersion()}");
+                        break;
+
+                    // Задание 38
+                    case 38:
+                        Console.WriteLine($"Домен: {UrlHelper.GetDomain("https://example.com/page")}");
+                        break;
+
+                    // Задание 39
+                    case 39:
+                        Console.WriteLine($"Без пробелов: {TextProcessor.RemoveSpaces("H e l l o")}");
+                        break;
+
+                    // Задание 40
+                    case 40:
+                        Console.WriteLine($"Количество процессоров: {SystemInfo.GetProcessorCount()}");
+                        break;
+
+                    // Задание 41
+                    case 41:
+                        Console.WriteLine($"'А роза упала на лапу Азора' палиндром: {"А роза упала на лапу Азора".IsPalindrome()}");
+                        break;
+
+                    // Задание 42
+                    case 42:
+                        int[] arr = { 1, 2, 3, 4, 5 };
+                        Console.WriteLine($"Случайный элемент: {arr.GetRandomElement()}");
+                        break;
+
+                    // Задание 43
+                    case 43:
+                        Console.WriteLine($"4 четное: {4.IsEven()}");
+                        Console.WriteLine($"5 четное: {5.IsEven()}");
+                        break;
+
+                    // Задание 44
+                    case 44:
+                        DateTime birth = new DateTime(2000, 1, 1);
+                        Console.WriteLine($"Возраст: {birth.GetAge()}");
+                        break;
+
+                    // Задание 45
+                    case 45:
+                        Console.WriteLine($"Без пробелов: {"Hello World".RemoveAllSpaces()}");
+                        break;
+
+                    // Задание 46
+                    case 46:
+                        var list = new List<int> { 1, 2, 3, 4, 5 };
+                        list.Shuffle();
+                        Console.WriteLine($"Перемешано: {string.Join(", ", list)}");
+                        break;
+
+                    // Задание 47
+                    case 47:
+                        Console.WriteLine($"Title Case: {"hello world".ToTitleCase()}");
+                        break;
+
+                    // Задание 48
+                    case 48:
+                        Console.WriteLine($"1994 в римских: {1994.ToRoman()}");
+                        break;
+
+                    // Задание 49
+                    case 49:
+                        var lst = new List<int> { 1, 2, 3 };
+                        Console.WriteLine($"Список имеет элементы: {lst.HasElements()}");
+                        break;
+
+                    // Задание 50
+                    case 50:
+                        Console.WriteLine($"Слов в тексте: {"Это тестовая строка".CountWords()}");
+                        break;
+
+                    // Задание 51
+                    case 51:
+                        int[] numbers = { 3, 1, 4, 1, 5, 9 };
+                        Console.WriteLine($"Медиана: {numbers.GetMedian()}");
+                        break;
+
+                    // Задание 52
+                    case 52:
+                        DateTime today = DateTime.Now;
+                        Console.WriteLine($"Начало недели: {today.GetWeekStart()}");
+                        break;
+
+                    // Задание 53
+                    case 53:
+                        Console.WriteLine($"Без HTML: {"<p>Hello</p>".RemoveHtmlTags()}");
+                        break;
+
+                    // Задание 54
+                    case 54:
+                        Console.WriteLine($"17 простое число: {17.IsPrime()}");
+                        Console.WriteLine($"18 простое число: {18.IsPrime()}");
+                        break;
+
+                    // Задание 55
+                    case 55:
+                        var bigList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                        var grouped = bigList.GroupBySize(3);
+                        Console.WriteLine($"Группировано по 3: {grouped.Count} групп");
+                        break;
+
+                    // Задание 56
+                    case 56:
+                        Console.WriteLine($"Base64: {"Hello".ToBase64()}");
+                        break;
+
+                    // Задание 57
+                    case 57:
+                        int[] nums = { 10, 5, 20, 8, 15 };
+                        Console.WriteLine($"Второй максимум: {nums.GetSecondMax()}");
+                        break;
+
+                    // Задание 58
+                    case 58:
+                        Console.WriteLine($"Читаемая дата: {DateTime.Now.ToReadableFormat()}");
+                        break;
+
+                    // Задание 59
+                    case 59:
+                        Console.WriteLine($"Сила пароля 'Abc123!@': {"Abc123!@".PasswordStrength()}");
+                        break;
+
+                    // Задание 60
+                    case 60:
+                        Console.WriteLine($"1024 байта: {((long)1024).BytesToReadable()}");
+                        Console.WriteLine($"1048576 байт: {((long)1048576).BytesToReadable()}");
+                        break;
+
+                    // Задание 61
+                    case 61:
+                        Car car = new Car();
+                        car.engine.Start();
+                        Console.WriteLine($"Тип двигателя: {car.engine.Type}");
+                        break;
+
+                    // Задание 62
+                    case 62:
+                        var lib = new Library();
+                        Console.WriteLine("Библиотека с вложенным классом Book создана");
+                        break;
+
+                    // Задание 63
+                    case 63:
+                        var comp = new Computer();
+                        Console.WriteLine("Компьютер с приватными CPU и RAM создан");
+                        break;
+
+                    // Задание 64
+                    case 64:
+                        var uni = new University();
+                        Console.WriteLine("Университет с защищенным классом Student создан");
+                        break;
+
+                    // Задание 65
+                    case 65:
+                        var account = new BankAccount();
+                        var trans = new BankAccount.Transaction { Amount = 100, Date = DateTime.Now };
+                        Console.WriteLine($"Транзакция: {trans.Amount}");
+                        break;
+
+                    // Задание 66
+                    case 66:
+                        Console.WriteLine($"Макс игроков: {Game.Rules.MaxPlayers}");
+                        break;
+
+                    // Задание 67
+                    case 67:
+                        var tree = new TreeNode();
+                        Console.WriteLine("TreeNode с вложенными классами обхода создан");
+                        break;
+
+                    // Задание 68
+                    case 68:
+                        var calc = new CalculatorNested();
+                        Console.WriteLine("Calculator с вложенными классами операций создан");
+                        break;
+
+                    // Задание 69
+                    case 69:
+                        var doc = new Document();
+                        Console.WriteLine("Document с вложенным классом Page создан");
+                        break;
+
+                    // Задание 70
+                    case 70:
+                        var net = new Network();
+                        Console.WriteLine("Network с вложенными Node и Connection создан");
+                        break;
+
+                    // Задание 71
+                    case 71:
+                        var house = new House();
+                        Console.WriteLine("House с вложенными Room и Furniture создан");
+                        break;
+
+                    // Задание 72
+                    case 72:
+                        var phone = new Phone();
+                        var contact = new Phone.Contact { Name = "Иван", PhoneNumber = "79990001122" };
+                        Console.WriteLine($"Контакт: {contact.Name}");
+                        break;
+
+                    // Задание 73
+                    case 73:
+                        var rest = new Restaurant();
+                        Console.WriteLine("Restaurant с меню и заказами создан");
+                        break;
+
+                    // Задание 74
+                    case 74:
+                        var school = new School();
+                        Console.WriteLine("School с Teacher и Classroom создана");
+                        break;
+
+                    // Задание 75
+                    case 75:
+                        var linkedList = new LinkedListNested();
+                        Console.WriteLine("LinkedList с вложенным Node создан");
+                        break;
+
+                    // Задание 76
+                    case 76:
+                        var email = new Email();
+                        Console.WriteLine("Email с Attachment и Header создан");
+                        break;
+
+                    // Задание 77
+                    case 77:
+                        var team = new Team();
+                        var player = new Team.Player { Name = "Александр" };
+                        Console.WriteLine($"Игрок: {player.Name}");
+                        break;
+
+                    // Задание 78
+                    case 78:
+                        var shape = new Shape();
+                        var circle = new Shape.Circle { Radius = 5 };
+                        Console.WriteLine($"Площадь круга: {circle.Area()}");
+                        break;
+
+                    // Задание 79
+                    case 79:
+                        var db = new Database();
+                        Console.WriteLine("Database с Table и Column создан");
+                        break;
+
+                    // Задание 80
+                    case 80:
+                        var store = new Store();
+                        var product = new Store.Product { Name = "Товар", Price = 99.99m };
+                        Console.WriteLine($"Товар: {product.Name}, Цена: {product.Price}");
+                        break;
+
+                    // Задание 81
+                    case 81:
+                        var dbConn = DatabaseConnection.Instance;
+                        Console.WriteLine("DatabaseConnection Singleton создан");
+                        break;
+
+                    // Задание 82
+                    case 82:
+                        LoggerSingleton.Instance.Log("Тестовое сообщение");
+                        break;
+
+                    // Задание 83
+                    case 83:
+                        var lazyLog = LazyLogger.Instance;
+                        Console.WriteLine("Lazy Logger Singleton инициализирован");
+                        break;
+
+                    // Задание 84
+                    case 84:
+                        var dclSingleton = DoubleCheckLockSingleton.Instance;
+                        Console.WriteLine("Double-check lock Singleton создан");
+                        break;
+
+                    // Задание 85
+                    case 85:
+                        var configMgr = ConfigurationManager.Instance;
+                        Console.WriteLine("Configuration Manager Singleton создан");
+                        break;
+
+                    // Задание 86
+                    case 86:
+                        var staticSingleton = StaticConstructorSingleton.Instance;
+                        Console.WriteLine("Static Constructor Singleton создан");
+                        break;
+
+                    // Задание 87
+                    case 87:
+                        var enumSettings = EnumBasedSettings.Instance;
+                        Console.WriteLine("Enum-based Singleton ApplicationSettings создан");
+                        break;
+
+                    // Задание 88
+                    case 88:
+                        var genSingleton = GenericSingleton<int>.Instance;
+                        genSingleton.Value = 42;
+                        Console.WriteLine($"Generic Singleton: {genSingleton.Value}");
+                        break;
+
+                    // Задание 89
+                    case 89:
+                        var destroyable = DestroyableSingleton.Instance;
+                        destroyable.Destroy();
+                        var recreated = DestroyableSingleton.Instance;
+                        Console.WriteLine("Destroyable Singleton пересоздан");
+                        break;
+
+                    // Задание 90
+                    case 90:
+                        CacheManager.Instance.Add("key1", "value1");
+                        Console.WriteLine($"Из кеша: {CacheManager.Instance.Get("key1")}");
+                        break;
+
+                    // Задание 91
+                    case 91:
+                        Console.WriteLine($"Файл существует: {FileManager.Instance.FileExists("test.txt")}");
+                        break;
+
+                    // Задание 92
+                    case 92:
+                        Console.WriteLine($"Случайное число: {RandomGeneratorSingleton.Instance.Next(100)}");
+                        break;
+
+                    // Задание 93
+                    case 93:
+                        ApplicationState.Instance.SetState("user", "Иван");
+                        Console.WriteLine($"Состояние: {ApplicationState.Instance.GetState("user")}");
+                        break;
+
+                    // Задание 94
+                    case 94:
+                        Console.WriteLine($"Аутентификация: {SecurityManager.Instance.Authenticate("admin", "123")}");
+                        break;
+
+                    // Задание 95
+                    case 95:
+                        var perfCounter = PerformanceCounter.Instance;
+                        Console.WriteLine("Performance Counter Singleton создан");
+                        break;
+
+                    // Задание 96
+                    case 96:
+                        EmailService.Instance.EnqueueMessage("Письмо 1");
+                        Console.WriteLine($"Очередь: {EmailService.Instance.DequeueMessage()}");
+                        break;
+
+                    // Задание 97
+                    case 97:
+                        PrintManager.Instance.AddToPrintQueue("Документ1");
+                        Console.WriteLine("Документ добавлен в очередь печати");
+                        break;
+
+                    // Задание 98
+                    case 98:
+                        SessionManager.Instance.CreateSession("session1");
+                        Console.WriteLine("Сессия создана");
+                        break;
+
+                    // Задание 99
+                    case 99:
+                        NotificationService.Instance.Notify("Это важное уведомление");
+                        break;
+
+                    // Задание 100
+                    case 100:
+                        ResourcePoolManager.Instance.AddResource(new object());
+                        Console.WriteLine($"Ресурс получен: {ResourcePoolManager.Instance.GetResource() != null}");
+                        break;
+
+                    default:
+                        Console.WriteLine("Задание не найдено");
+                        break;
+                }
+            }
+        }
+    }
+}
